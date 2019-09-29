@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/Flush"
+        android:title="@string/flush_item" />
+
+    <item android:id="@+id/About"
+        android:title="@string/about_item" />
+
+    <item android:id="@+id/Exit"
+        android:title="@string/exit_item" />
+</menu>

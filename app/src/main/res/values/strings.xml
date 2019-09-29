@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Display</string>
+
+    <string name="login_welcome">Launch</string>
+    <string name="username_hint">Please input the id</string>
+    <string name="password_hint">Please input the password</string>
+
+    <string name="CheckBox_hint_user">Keep user</string>
+    <string name="CheckBox_hint_password">Keep password</string>
+
+    <string name="button_login">CONFIRM</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Manager</string>
+    <string name="nav_header_subtitle">rs249310509@163.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="flush_item">Flush</string>
+    <string name="exit_item">Exit</string>
+    <string name="about_item">About</string>
+
+    <string name="judge_human">judge_human</string>
+    <string name="temp_max">temp_max</string>
+    <string name="temp_min">temp_min</string>
+</resources>
