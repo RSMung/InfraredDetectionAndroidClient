@@ -80,24 +80,24 @@ public class MDisplay extends BaseActivity {
                 /******使用socket与主机通信,android主线程不能用socket*****/
 
                 //手动请求服务器
-//                s1 = new ImageSocketClient(mHandler);
-//                s1.start();
+                s1 = new ImageSocketClient(mHandler);
+                s1.start();
 
                 /*自动请求服务器*/
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            while(true){
-                                s1 = new ImageSocketClient(mHandler);
-                                s1.start();
-                                sleep(1000);
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try{
+//                            while(true){
+//                                s1 = new ImageSocketClient(mHandler);
+//                                s1.start();
+//                                sleep(1000);
+//                            }
+//                        }catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
                 break;
             case R.id.About:
                 Toast.makeText(this, "Author:RuanSong",
@@ -161,7 +161,7 @@ public class MDisplay extends BaseActivity {
             Log.e("MDisplay","temp_min:"+temp_min_real);
             Log.e("MDisplay","temp_average:"+temp_average);
 
-            //更新控件
+            //更新控件--温度
             dashboardView.setPercent((float)(temp_average));
             temp_max_view.setText(String.valueOf(temp_max_real));
             temp_min_view.setText(String.valueOf(temp_min_real));
@@ -171,8 +171,8 @@ public class MDisplay extends BaseActivity {
             for(int i =0; i  < grayValue.length; i++) {
                 image_data[i] = (int) (grayValue[i] * 255);
             }
-            Log.e("MDisplay","grayValue after between 0 and 255:"+
-                    Arrays.toString(image_data));
+//            Log.e("MDisplay","grayValue after between 0 and 255:"+
+//                    Arrays.toString(image_data));
             //生成图片
             int width = 32,height = 24;
             //生成bitmap对象
@@ -183,6 +183,8 @@ public class MDisplay extends BaseActivity {
             for(int f = 0; f < width*height;f++){
                 //rgb转int,灰度值设置为R,其余为0
 //                pixels[f] = Color.rgb(255-image_data[f],0,0);
+
+                //GreyToColorRGB()按照函数关系将0-255灰度值映射到rgb三个通道
                 pixels[f] = GreyToColorRGB(image_data[f]);
             }
             //stride设置一行打多少像素，通常一行设置为bitmap的宽度
@@ -223,25 +225,24 @@ public class MDisplay extends BaseActivity {
         //red
         if (value<128)
             r = 0;
-        else if (value<192)
-            //192-168=64
-            r = 255*((value-128)/64);
+        else if (value<192) //192-168=64
+            r = 255 / 64*(value - 128);
         else
             r=255;
 
         //green
         if (value<64)
-            g = 255*(value/64);
+            g = 255/64*value;
         else if (value<192)
             g = 255;
         else
-            g= (value-192)/(255-192)*255;
+            g= -255/63*(value-192)+255;
 
         //blue
         if (value<64)
             b = 255;
         else if (value<128)
-            b = (value-64)/(128-64)*255;
+            b = -255/63*(value-192)+255;
         else
             b=0;
         return Color.rgb(r,g,b);

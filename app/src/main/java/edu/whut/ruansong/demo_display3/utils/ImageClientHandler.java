@@ -24,14 +24,14 @@ public class ImageClientHandler extends ChannelInboundHandlerAdapter {
     private Handler mHandler = null;
 
     public ImageClientHandler(Handler h1) {
-        Log.e("ImageClientHandler","client--进入构造函数");
+//        Log.e("ImageClientHandler","client--进入构造函数");
         this.mHandler = h1;
     }
 
     //当客户端和服务端的TCP链路建立成功之后,NIO线程会调用此方法
     @Override
     public void channelActive(ChannelHandlerContext ctx){
-        Log.e("ImageClientHandler","client--进入channelActive");
+        Log.e("ImageClientHandler","client--channelActive请求服务器");
         byte[] req = new byte[1543];
         for(int i = 0; i< 1543;i++){//用全0初始化数组
             req[i] = (byte)0;

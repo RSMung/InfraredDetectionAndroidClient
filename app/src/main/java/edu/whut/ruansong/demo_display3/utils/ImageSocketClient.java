@@ -31,7 +31,7 @@ public class ImageSocketClient extends Thread{
 
     @Override
     public void run(){
-        Log.e("ImageSocketClient","client--进入构造函数");
+//        Log.e("ImageSocketClient","client--进入构造函数");
         try{
             connect(port,server_ip);
         }catch (Exception e){
@@ -39,7 +39,7 @@ public class ImageSocketClient extends Thread{
         }
     }
     public void connect(int port,String server_ip)throws Exception{
-        Log.e("ImageSocketClient","client--进入connect");
+//        Log.e("ImageSocketClient","client--进入connect");
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
