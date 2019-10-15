@@ -52,7 +52,6 @@ public class MDisplay extends BaseActivity {
         setSupportActionBar(toolbar);
         initDashBoardView();
 
-        judge_human_view = findViewById(R.id.judge_human);
         temp_max_view = findViewById(R.id.temp_max);
         temp_min_view = findViewById(R.id.temp_min);
         human_image = findViewById(R.id.human_image);
@@ -80,24 +79,24 @@ public class MDisplay extends BaseActivity {
                 /******使用socket与主机通信,android主线程不能用socket*****/
 
                 //手动请求服务器
-                s1 = new ImageSocketClient(mHandler);
-                s1.start();
+//                s1 = new ImageSocketClient(mHandler);
+//                s1.start();
 
                 /*自动请求服务器*/
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try{
-//                            while(true){
-//                                s1 = new ImageSocketClient(mHandler);
-//                                s1.start();
-//                                sleep(1000);
-//                            }
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            while(true){
+                                s1 = new ImageSocketClient(mHandler);
+                                s1.start();
+                                sleep(1000);
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 break;
             case R.id.About:
                 Toast.makeText(this, "Author:RuanSong",
@@ -122,7 +121,7 @@ public class MDisplay extends BaseActivity {
         dashboardView = findViewById(R.id.dashboardView);
         temp_dashboard = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
         dashboardView.setTikeStrArray(temp_dashboard);
-        dashboardView.setText("环境温度");
+        dashboardView.setText("平均温度");
         dashboardView.setUnit("0℃");
         dashboardView.setMaxNum(100);
         dashboardView.setPercent(50);
@@ -150,21 +149,17 @@ public class MDisplay extends BaseActivity {
             //数据获取
             double temp_average = imageMesBean.getTemp_average();//平均温度
             double[] grayValue = imageMesBean.getGrayValue();//归一化灰度值数组
-            double temp_max = imageMesBean.getTemp_max();//double温度最大值下标
-            double temp_min = imageMesBean.getTemp_min();//double温度最小值下标
-            int temp_max_int = (int) temp_max;//int温度最大值下标
-            int temp_min_int = (int) temp_min;//int温度最小值下标
-            double temp_max_real = grayValue[temp_max_int]*20+20;//温度最大值
-            double temp_min_real = grayValue[temp_min_int]*20+20;//温度最小值
+            double temp_max = imageMesBean.getTemp_max();//温度最大值
+            double temp_min = imageMesBean.getTemp_min();//温度最小值
 
-            Log.e("MDisplay","temp_max:"+temp_max_real);
-            Log.e("MDisplay","temp_min:"+temp_min_real);
+            Log.e("MDisplay","temp_max:"+temp_max);
+            Log.e("MDisplay","temp_min:"+temp_min);
             Log.e("MDisplay","temp_average:"+temp_average);
 
             //更新控件--温度
             dashboardView.setPercent((float)(temp_average));
-            temp_max_view.setText(String.valueOf(temp_max_real));
-            temp_min_view.setText(String.valueOf(temp_min_real));
+            temp_max_view.setText(temp_max+"℃");
+            temp_min_view.setText(temp_min+"℃");
 
             int[] image_data = new int[grayValue.length];//灰度值数组
             //将归一化的数据变成灰度值
@@ -181,9 +176,12 @@ public class MDisplay extends BaseActivity {
             //像素数组
             int[] pixels = new int[width*height];
             for(int f = 0; f < width*height;f++){
-                //rgb转int,灰度值设置为R,其余为0
+                /**
+                 * 测试语句
+                 * rgb转int,灰度值设置为R,其余为0*/
 //                pixels[f] = Color.rgb(255-image_data[f],0,0);
-
+                /**
+                 * 实际语句*/
                 //GreyToColorRGB()按照函数关系将0-255灰度值映射到rgb三个通道
                 pixels[f] = GreyToColorRGB(image_data[f]);
             }
@@ -191,7 +189,8 @@ public class MDisplay extends BaseActivity {
             human_bitmap.setPixels(pixels,0,width,0,0,width,height);
             //缩放
             human_bitmap = zoomImage(human_bitmap,width*30,height*30);
-            //控件更新
+
+            //更新控件--图片
             human_image.setImageBitmap(human_bitmap);
         }else{
             Toast.makeText(MDisplay.this,"imageMesBean为空",
@@ -223,26 +222,26 @@ public class MDisplay extends BaseActivity {
         //https://blog.csdn.net/huixingshao/article/details/42706699#
         int r,g,b;
         //red
-        if (value<128)
+        if (value<64)
             r = 0;
-        else if (value<192) //192-168=64
-            r = 255 / 64*(value - 128);
+        else if (value<128) //192-168=64
+            r = (value - 64)*4;
         else
             r=255;
 
         //green
         if (value<64)
-            g = 255/64*value;
+            g = value*200/64;
         else if (value<192)
-            g = 255;
+            g = 200;
         else
-            g= -255/63*(value-192)+255;
+            g= (value-255)*(-200)/63;
 
         //blue
         if (value<64)
             b = 255;
         else if (value<128)
-            b = -255/63*(value-192)+255;
+            b = (value-128)*(-255)/64;
         else
             b=0;
         return Color.rgb(r,g,b);

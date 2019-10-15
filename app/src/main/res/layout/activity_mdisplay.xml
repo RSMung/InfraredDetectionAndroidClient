@@ -45,16 +45,22 @@
                     android:layout_marginStart="@dimen/dp_20">
 
                     <TextView
-                        android:id="@+id/judge_human"
+                        android:id="@+id/tip_max"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/judge_human"
-                        android:textSize="@dimen/sp_20"/>
+                        android:text="@string/tip_max"
+                        android:textSize="@dimen/sp_20" />
                     <TextView
                         android:id="@+id/temp_max"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/temp_max"
+                        android:textSize="@dimen/sp_20" />
+                    <TextView
+                        android:id="@+id/tip_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tip_min"
                         android:textSize="@dimen/sp_20" />
                     <TextView
                         android:id="@+id/temp_min"
@@ -68,12 +74,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/jpg_chart"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/tupian"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/dp_20"
+                    android:text="@string/hot_picture" />
             </RelativeLayout>
 
             <RelativeLayout

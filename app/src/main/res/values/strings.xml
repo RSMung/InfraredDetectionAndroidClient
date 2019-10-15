@@ -20,7 +20,9 @@
     <string name="exit_item">Exit</string>
     <string name="about_item">About</string>
 
-    <string name="judge_human">judge_human</string>
+    <string name="hot_picture">热成像图</string>
+    <string name="tip_max">温度最大值:</string>
+    <string name="tip_min">温度最小值:</string>
     <string name="temp_max">temp_max</string>
     <string name="temp_min">temp_min</string>
 </resources>
