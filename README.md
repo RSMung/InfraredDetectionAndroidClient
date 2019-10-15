@@ -1,0 +1,2 @@
+# InfraredDetectionAndroidClient 红外检测项目Android客户端
+AndroidClient
