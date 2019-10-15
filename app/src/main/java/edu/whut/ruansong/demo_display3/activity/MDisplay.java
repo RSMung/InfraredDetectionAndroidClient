@@ -38,7 +38,6 @@ public class MDisplay extends BaseActivity {
     DashboardView dashboardView;//仪表盘
     String temp_dashboard[];//仪表盘表盘刻度
     private ImageMesBean imageMesBean = null;
-    private TextView judge_human_view = null;
     private TextView temp_max_view = null;
     private TextView temp_min_view = null;
     private ImageView human_image = null;
@@ -119,12 +118,13 @@ public class MDisplay extends BaseActivity {
     /**初始化仪表盘*/
     public void initDashBoardView(){
         dashboardView = findViewById(R.id.dashboardView);
-        temp_dashboard = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
+        temp_dashboard = new String[]{"0", "10", "20", "30", "40", "50", "60", "70"};
         dashboardView.setTikeStrArray(temp_dashboard);
         dashboardView.setText("平均温度");
+        dashboardView.setTextSize(40);
         dashboardView.setUnit("0℃");
-        dashboardView.setMaxNum(100);
-        dashboardView.setPercent(50);
+        dashboardView.setMaxNum(70);
+        dashboardView.setPercent(0);
     }
 
     private Handler mHandler = new Handler(){
@@ -164,7 +164,7 @@ public class MDisplay extends BaseActivity {
             int[] image_data = new int[grayValue.length];//灰度值数组
             //将归一化的数据变成灰度值
             for(int i =0; i  < grayValue.length; i++) {
-                image_data[i] = (int) (grayValue[i] * 255);
+                image_data[i] = (int) ((1-grayValue[i]) * 255);
             }
 //            Log.e("MDisplay","grayValue after between 0 and 255:"+
 //                    Arrays.toString(image_data));
